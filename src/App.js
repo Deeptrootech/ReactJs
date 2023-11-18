@@ -24,6 +24,8 @@ import Hero from "./components/Hero";
 import "./appStyle.css";
 import style from "./appStyle.module.css";
 import Errorboundry from "./components/Errorboundry";
+import ClickCounter from "./components/ClickCounter";
+import HoverCounter from "./components/HoverCounter";
 
 function App() {
   return (
@@ -58,7 +60,7 @@ function App() {
       {/* <PureComp /> */}
       {/* <RefDemo /> */}
       {/* <PortalDemo /> */}
-      <Errorboundry>
+      {/* <Errorboundry>
         <Hero heroName='BatMan' />
       </Errorboundry>
       <Errorboundry>
@@ -66,7 +68,9 @@ function App() {
       </Errorboundry>
       <Errorboundry>
         <Hero heroName='Joker' />
-      </Errorboundry>
+      </Errorboundry> */}
+      {/* <ClickCounter /> */}
+      <HoverCounter name="Deep" />
     </div>
   );
 }
