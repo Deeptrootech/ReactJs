@@ -90,7 +90,7 @@ function App() {
           <HoverCounter2 count={count} increamentCount={increamentCount} />
         )}
       </MovementCounter> */}
-      <UserProvider value="DeepUser">
+      <UserProvider value='DeepUser'>
         <ComponentC />
       </UserProvider>
     </div>
