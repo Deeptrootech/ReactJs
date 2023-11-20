@@ -26,6 +26,10 @@ import style from "./appStyle.module.css";
 import Errorboundry from "./components/Errorboundry";
 import ClickCounter from "./components/ClickCounter";
 import HoverCounter from "./components/HoverCounter";
+import ClickCounter2 from "./components/ClickCounter2";
+import HoverCounter2 from "./components/HoverCounter2";
+import User from "./components/User";
+import MovementCounter from "./components/MovementCounter";
 
 function App() {
   return (
@@ -70,7 +74,20 @@ function App() {
         <Hero heroName='Joker' />
       </Errorboundry> */}
       {/* <ClickCounter /> */}
-      <HoverCounter name="Deep" />
+      {/* <HoverCounter name="Deep" /> */}
+      {/* <ClickCounter2/> */}
+      {/* <HoverCounter2/> */}
+      {/* <User render={(IsLoggedIn) => IsLoggedIn ? "Deep User" : "Anonymous User"} /> */}
+      <MovementCounter>
+        {(count, increamentCount) => (
+          <ClickCounter2 count={count} increamentCount={increamentCount} />
+        )}
+      </MovementCounter>
+      <MovementCounter>
+        {(count, increamentCount) => (
+          <HoverCounter2 count={count} increamentCount={increamentCount} />
+        )}
+      </MovementCounter>
     </div>
   );
 }
