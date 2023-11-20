@@ -30,6 +30,8 @@ import ClickCounter2 from "./components/ClickCounter2";
 import HoverCounter2 from "./components/HoverCounter2";
 import User from "./components/User";
 import MovementCounter from "./components/MovementCounter";
+import ComponentC from "./components/ComponentC";
+import { UserProvider } from "./components/UserContext";
 
 function App() {
   return (
@@ -78,7 +80,7 @@ function App() {
       {/* <ClickCounter2/> */}
       {/* <HoverCounter2/> */}
       {/* <User render={(IsLoggedIn) => IsLoggedIn ? "Deep User" : "Anonymous User"} /> */}
-      <MovementCounter>
+      {/* <MovementCounter>
         {(count, increamentCount) => (
           <ClickCounter2 count={count} increamentCount={increamentCount} />
         )}
@@ -87,7 +89,10 @@ function App() {
         {(count, increamentCount) => (
           <HoverCounter2 count={count} increamentCount={increamentCount} />
         )}
-      </MovementCounter>
+      </MovementCounter> */}
+      <UserProvider value="DeepUser">
+        <ComponentC />
+      </UserProvider>
     </div>
   );
 }
