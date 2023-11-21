@@ -19,17 +19,19 @@ class PostList extends Component {
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ errorMsg: "Error Retrieving Data" });
       });
   }
 
   render() {
-    const { posts } = this.state;
+    const { posts, errorMsg } = this.state;
     return (
       <div>
         Post Lists:
         {posts.length
           ? posts.map((post) => <div key={post.id}>{post.title}</div>)
           : null}
+        { errorMsg ? <div>{errorMsg}</div> : null}
       </div>
     );
   }
