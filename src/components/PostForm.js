@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jsonplaceholderAPI from '../api'
 
 class PostForm extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class PostForm extends Component {
       userid: "",
       title: "",
       body: "",
+      deleteid: "",
     };
   }
 
@@ -18,8 +20,7 @@ class PostForm extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     console.log(this.state, e);
-    axios
-      .post("https://jsonplaceholder.typicode.com/posts", this.state)
+    jsonplaceholderAPI.post("posts", this.state)
       .then((Response) => {
         console.log("Response", Response);
       })
@@ -28,12 +29,25 @@ class PostForm extends Component {
       });
   };
 
+  deleteDataHandler = (e) => {
+    e.preventDefault();
+    jsonplaceholderAPI.delete(`posts/${this.state.deleteid}`)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err.message);
+    })
+  };
+
   render() {
-    const { userid, title, body } = this.state;
+    const { userid, title, body, deleteid } = this.state;
     return (
       <div>
+        <h1> Add Form </h1>
         <form onSubmit={this.submitHandler}>
           <div>
+            <label>userid: </label>
             <input
               type='text'
               name='userid'
@@ -42,6 +56,7 @@ class PostForm extends Component {
             />
           </div>
           <div>
+            <label>title: </label>
             <input
               type='text'
               name='title'
@@ -50,10 +65,25 @@ class PostForm extends Component {
             />
           </div>
           <div>
+            <label>body: </label>
             <input
               type='text'
               name='body'
               value={body}
+              onChange={this.changeHandler}
+            />
+          </div>
+          <button type='submit'>submit</button>
+        </form>
+
+        <h1> Delete Form </h1>
+        <form onSubmit={this.deleteDataHandler}>
+          <div>
+            <label>deleteid: </label>
+            <input
+              type='text'
+              name='deleteid'
+              value={deleteid}
               onChange={this.changeHandler}
             />
           </div>

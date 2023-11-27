@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jsonplaceholderAPI from '../api'
+
 
 class PostList extends Component {
   constructor(props) {
@@ -11,8 +13,7 @@ class PostList extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
+    jsonplaceholderAPI.get("posts")
       .then((response) => {
         console.log(response);
         this.setState({ posts: response.data });
