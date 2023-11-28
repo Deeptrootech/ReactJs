@@ -1,20 +1,27 @@
-import React, { useState } from 'react';  
-  
-function NameApp() {  
-  const [name, setName] = useState("DefaultName");  
-  
-  return (  
+import React, { useState } from "react";
+
+function NameApp() {
+  const [name, setName] = useState({ FirstName: "Deep", LastName: "Pathak" });
+
+  return (
     <div>
       <form>
         <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your Name"
+          type='text'
+          value={name.FirstName}
+          onChange={(e) => setName({...name, FirstName: e.target.value})}
+          placeholder='Your FirstName'
         />
-        <p>Entered name: {name}</p>
+        <input
+          type='text'
+          value={name.LastName}
+          onChange={(e) => setName({...name, LastName: e.target.value})}
+          placeholder='Your LastName'
+        />
+        <p>Entered FirstName: {name.FirstName}</p>
+        <p>Entered LastName: {name.LastName}</p>
       </form>
-    </div> 
-  );  
-}  
+    </div>
+  );
+}
 export default NameApp;
