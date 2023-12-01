@@ -5,6 +5,7 @@ import ArrayCRUD from "./components/ArrayCRUD";
 import CompMountUnmount from "./components/CompMountUnmount";
 import UseRefHook from "./components/UseRefHook";
 import UseContextHook from "./components/UseContextHook";
+import FetchDataAPI from "./components/FetchDataAPI";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       {/* <ArrayCRUD /> */}
       {/* <CompMountUnmount /> */}
       {/* <UseRefHook /> */}
-      <UseContextHook />
+      {/* <UseContextHook /> */}
+      <FetchDataAPI />
     </div>
   );
 }
