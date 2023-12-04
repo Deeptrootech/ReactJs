@@ -6,6 +6,8 @@ import CompMountUnmount from "./components/CompMountUnmount";
 import UseRefHook from "./components/UseRefHook";
 import UseContextHook from "./components/UseContextHook";
 import FetchDataAPI from "./components/FetchDataAPI";
+import ParentComponent from "./components/CallBackHook/ParentComponent";
+import Count from "./components/CallBackHook/Count";
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       {/* <CompMountUnmount /> */}
       {/* <UseRefHook /> */}
       {/* <UseContextHook /> */}
-      <FetchDataAPI />
+      {/* <FetchDataAPI /> */}
+      <ParentComponent />
+      {/* <Count /> */}
     </div>
   );
 }
