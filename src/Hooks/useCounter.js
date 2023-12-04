@@ -1,19 +1,19 @@
 import { useState } from 'react'
 
-function useCounter() {
-  const [coount, setcount] = useState(0);
+function useCounter(initialCount, value) {
+  const [coount, setcount] = useState(initialCount);
 
   const handleIncrease = () => {
     console.log("handleIncrease");
-    setcount(coount + 1);
+    setcount(coount + value);
   };
   const handleReset = () => {
     console.log("handleReset");
-    setcount(0);
+    setcount(initialCount);
   };
   const handleDecrease = () => {
     console.log("handleDecrease");
-    setcount(coount - 1);
+    setcount(coount - value);
   };
 
   return [coount, handleIncrease, handleDecrease, handleReset]
