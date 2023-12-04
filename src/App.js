@@ -6,6 +6,8 @@ import CompMountUnmount from "./components/CompMountUnmount";
 import UseRefHook from "./components/UseRefHook";
 import UseContextHook from "./components/UseContextHook";
 import FetchDataAPI from "./components/FetchDataAPI";
+import DataFeching_UseState from "./components/DataFetchWithLoader/DataFeching_UseState";
+import DataFeching_UseReducer from "./components/DataFetchWithLoader/DataFeching_UseReducer";
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       {/* <CompMountUnmount /> */}
       {/* <UseRefHook /> */}
       {/* <UseContextHook /> */}
-      <FetchDataAPI />
+      {/* <FetchDataAPI /> */}
+      <DataFeching_UseState />
+      {/* <DataFeching_UseReducer /> */}
     </div>
   );
 }
