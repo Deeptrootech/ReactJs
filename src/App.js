@@ -7,7 +7,7 @@ import UseRefHook from "./components/UseRefHook";
 import UseContextHook from "./components/UseContextHook";
 import FetchDataAPI from "./components/FetchDataAPI";
 import ParentComponent from "./components/CallBackHook/ParentComponent";
-import Count from "./components/CallBackHook/Count";
+import UseMemo from "./components/UseMemo";
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
       {/* <UseRefHook /> */}
       {/* <UseContextHook /> */}
       {/* <FetchDataAPI /> */}
-      <ParentComponent />
-      {/* <Count /> */}
+      {/* <ParentComponent /> */}
+      <UseMemo />
     </div>
   );
 }
