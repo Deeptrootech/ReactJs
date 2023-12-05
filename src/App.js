@@ -15,6 +15,7 @@ import CounterTwo from "./components/CustomHooks/CounterTwo";
 import ParentOne from "./components/Optimization/ParentOne";
 import ChildOne from "./components/Optimization/ChildOne";
 import ParentTwo from "./components/Optimization/Memo/ParentTwo";
+import ParentThree from "./components/Optimization/IncorrectOptimization/parentThree";
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
       {/* <ParentOne>
         <ChildOne />
       </ParentOne> */}
-      <ParentTwo />
+      {/* <ParentTwo /> */}
+      <ParentThree />
     </div>
   );
 }
