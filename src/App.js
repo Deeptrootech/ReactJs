@@ -12,6 +12,9 @@ import UpdateDOMTitleOne from "./components/CustomHooks/UpdateDOMTitleOne";
 import UpdateDOMTitleTwo from "./components/CustomHooks/UpdateDOMTitleTwo";
 import CounterOne from "./components/CustomHooks/CounterOne";
 import CounterTwo from "./components/CustomHooks/CounterTwo";
+import ParentOne from "./components/Optimization/ParentOne";
+import ChildOne from "./components/Optimization/ChildOne";
+import ParentTwo from "./components/Optimization/Memo/ParentTwo";
 
 function App() {
   return (
@@ -27,8 +30,12 @@ function App() {
       {/* <UseMemo /> */}
       {/* <UpdateDOMTitleOne /> */}
       {/* <UpdateDOMTitleTwo /> */}
-      <CounterOne />
-      <CounterTwo />
+      {/* <CounterOne /> */}
+      {/* <CounterTwo /> */}
+      {/* <ParentOne>
+        <ChildOne />
+      </ParentOne> */}
+      <ParentTwo />
     </div>
   );
 }
