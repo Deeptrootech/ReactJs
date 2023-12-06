@@ -8,6 +8,12 @@ import UseContextHook from "./components/UseContextHook";
 import FetchDataAPI from "./components/FetchDataAPI";
 import DataFeching_UseState from "./components/DataFetchWithLoader/DataFeching_UseState";
 import DataFeching_UseReducer from "./components/DataFetchWithLoader/DataFeching_UseReducer";
+import ParentComponent from "./components/CallBackHook/ParentComponent";
+import UseMemo from "./components/UseMemo";
+import UpdateDOMTitleOne from "./components/CustomHooks/UpdateDOMTitleOne";
+import UpdateDOMTitleTwo from "./components/CustomHooks/UpdateDOMTitleTwo";
+import CounterOne from "./components/CustomHooks/CounterOne";
+import CounterTwo from "./components/CustomHooks/CounterTwo";
 
 function App() {
   return (
@@ -21,7 +27,13 @@ function App() {
       {/* <FetchDataAPI /> */}
       <DataFeching_UseState />
       {/* <DataFeching_UseReducer /> */}
-    </div>
+      {/* <ParentComponent /> */}
+      {/* <UseMemo /> */}
+      {/* <UpdateDOMTitleOne /> */}
+      {/* <UpdateDOMTitleTwo /> */}
+      <CounterOne />
+      <CounterTwo />
+    </div >
   );
 }
 

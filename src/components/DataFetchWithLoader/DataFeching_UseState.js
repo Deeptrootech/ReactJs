@@ -8,7 +8,7 @@ function DataFeching_UseState() {
     const [postdata, setpostdata] = useState({})
 
     useEffect(() => {
-        axios.get("https://jsonplaceholder.typicode.com/posts /1")
+        axios.get("https://jsonplaceholder.typicode.com/posts/1")
             .then(response => {
                 setloading(false)
                 console.log(response.data);
