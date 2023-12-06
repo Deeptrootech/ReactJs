@@ -14,6 +14,10 @@ import UpdateDOMTitleOne from "./components/CustomHooks/UpdateDOMTitleOne";
 import UpdateDOMTitleTwo from "./components/CustomHooks/UpdateDOMTitleTwo";
 import CounterOne from "./components/CustomHooks/CounterOne";
 import CounterTwo from "./components/CustomHooks/CounterTwo";
+import ParentOne from "./components/Optimization/ParentOne";
+import ChildOne from "./components/Optimization/ChildOne";
+import ParentTwo from "./components/Optimization/Memo/ParentTwo";
+import ParentThree from "./components/Optimization/IncorrectOptimization/parentThree";
 
 function App() {
   return (
@@ -25,15 +29,22 @@ function App() {
       {/* <UseRefHook /> */}
       {/* <UseContextHook /> */}
       {/* <FetchDataAPI /> */}
-      <DataFeching_UseState />
+      {/* <DataFeching_UseState /> */}
       {/* <DataFeching_UseReducer /> */}
       {/* <ParentComponent /> */}
       {/* <UseMemo /> */}
       {/* <UpdateDOMTitleOne /> */}
       {/* <UpdateDOMTitleTwo /> */}
-      <CounterOne />
-      <CounterTwo />
-    </div >
+      {/* <CounterOne /> */}
+      {/* <CounterTwo /> */}
+      {/* <CounterOne /> */}
+      {/* <CounterTwo /> */}
+      {/* <ParentOne>
+        <ChildOne />
+      </ParentOne> */}
+      {/* <ParentTwo /> */}
+      <ParentThree />
+    </div>
   );
 }
 
