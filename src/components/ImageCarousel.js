@@ -23,11 +23,11 @@ const ImageCarousel = () => {
   const displayLeft = () => {
     setCurrentImg(
       imgs[
-        ((imgs.indexOf(currentimg) === 0
-          ? imgs.length
-          : imgs.indexOf(currentimg)) -
-          1) %
-          imgs.length
+      ((imgs.indexOf(currentimg) === 0
+        ? imgs.length
+        : imgs.indexOf(currentimg)) -
+        1) %
+      imgs.length
       ]
     );
   };
@@ -52,7 +52,7 @@ const ImageCarousel = () => {
           &gt;
         </button>
       </div>
-      <div>
+      <div className="submitform">
         <form onSubmit={(event) => handleSubmit(event)}>
           <label>ImageUrl</label>
           <input type='text' name='newdata' />
