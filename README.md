@@ -1,11 +1,11 @@
 ## Project Description
 
-- Name of this App is **FAQ/Accordion**.
-- Each accordion opens and closes after each button press.
+- Name of this App is **Shopping list**.
+- A shopping list where users can add new items to the list that they'd like to get from the store and delete items from the list.
 
 
 ## React concepts you will learn
-- Toggling state with useState
-- Conditionals (&&)
-- Passing data to components via props
-- Displaying multiple components with .map()
+- Updating lists with useState
+- JavaScript array spread operator and filter functions
+- Forms and inputs in React
+- onSubmit event handler
