@@ -1,10 +1,11 @@
 ## Project Description
 
-- Name of this App is **Imagecarousel**.
-- This should allow the user to click the backwards or forwards button to go to the previous or next image.
+- Name of this App is **FAQ/Accordion**.
+- Each accordion opens and closes after each button press.
 
 
 ## React concepts you will learn
-- useState (storing and updating state)
-- Conditionals (ternaries)
-- Lists, keys, and .map()
+- Toggling state with useState
+- Conditionals (&&)
+- Passing data to components via props
+- Displaying multiple components with .map()

@@ -1,0 +1,15 @@
+.container{
+  background-color: rgb(255 206 201 / 64%);
+  max-width: 600px;
+  padding: 10px 20px 20px;
+  border-radius: 12px;
+  margin: 0 auto;
+}
+.each_container {
+  background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 0px;
+}
