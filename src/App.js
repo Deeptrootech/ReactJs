@@ -1,10 +1,10 @@
 import "./App.css";
-import GitSearch from "./components/GitSearch";
+import BmiCalculator from "./components/BmiCalculator";
 
 function App() {
   return (
     <div className='App'>
-    <GitSearch />
+    <BmiCalculator />
     </div>
   );
 }
