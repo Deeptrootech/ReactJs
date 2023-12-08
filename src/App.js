@@ -1,10 +1,10 @@
 import "./App.css";
-import ShoppingList from "./components/ShoppingList";
+import GitSearch from "./components/GitSearch";
 
 function App() {
   return (
     <div className='App'>
-    <ShoppingList />
+    <GitSearch />
     </div>
   );
 }
