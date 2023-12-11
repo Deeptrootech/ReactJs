@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -34,7 +36,7 @@ function GetTodos() {
         setTodo([...todo, response.data]);
       })
       .catch((error) => console.log("Error Occured: ", error));
-      event.target.reset()
+    event.target.reset();
   };
 
   const deleteRaw = (index) => {
@@ -43,12 +45,22 @@ function GetTodos() {
       .delete(`http://127.0.0.1:8000/api/todos/${index}/`)
       .then((response) => {
         console.log("Deleted");
-        const updated_data = todo.filter((each_row) => each_row.id !== index)
+        const updated_data = todo.filter((each_row) => each_row.id !== index);
         setTodo(updated_data);
       })
       .catch((error) => console.log("Error Occured: ", error));
-  }
-
+  };
+  const editRaw = (index) => {
+    console.log(index);
+    // axios
+    //   .update(`http://127.0.0.1:8000/api/todos/${index}/`, )
+    //   .then((response) => {
+    //     console.log("Deleted");
+    //     const updated_data = todo.filter((each_row) => each_row.id !== index);
+    //     setTodo(updated_data);
+    //   })
+    //   .catch((error) => console.log("Error Occured: ", error));
+  };
   return (
     <div>
       <div>
@@ -59,7 +71,7 @@ function GetTodos() {
                 <TableCell>Title</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Completed</TableCell>
-                <TableCell>Delete</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -77,9 +89,18 @@ function GetTodos() {
                     <TableCell>false</TableCell>
                   )}
                   <TableCell>
-                    <Button variant='outlined' startIcon={<DeleteIcon />} onClick={() => deleteRaw(row.id)}>
-                      Delete
-                    </Button>
+                    <IconButton
+                      aria-label='delete'
+                      size='large'
+                      onClick={() => editRaw(row.id)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label='delete'
+                      size='large'
+                      onClick={() => deleteRaw(row.id)}>
+                      <DeleteIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -87,7 +108,7 @@ function GetTodos() {
           </Table>
         </TableContainer>
       </div>
-      
+
       <form onSubmit={handlePost}>
         Title : <input type='text' name='title' />
         Description : <input type='text' name='description' />
