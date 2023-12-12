@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Modal from "../hooks/modalHook";
+import Todoskeleton from "../Skeleton/TodoSkeleton";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,9 +13,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Modal from "../hooks/modalHook";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 function GetTodos() {
+  const [isLoading, setIsLoading] = useState(true);
   const [todo, setTodo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, seteditId] = useState(null);
@@ -21,6 +27,7 @@ function GetTodos() {
   const [editedTitle, setEditedTitle] = useState("");
   const [editedDescription, setEditedDescription] = useState("");
   const [editedIsCompleted, setEditedIsCompleted] = useState(false);
+  const [isChacked, setisChacked] = useState(false);
 
   const openModal = (index) => {
     axios
@@ -44,6 +51,7 @@ function GetTodos() {
       .get("http://127.0.0.1:8000/api/todos/")
       .then((response) => {
         setTodo(response.data);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -53,7 +61,7 @@ function GetTodos() {
     const payload = {
       title: event.target.title.value,
       description: event.target.description.value,
-      completed: event.target.completed.value,
+      completed: event.target.completed.checked,
     };
     axios
       .post("http://127.0.0.1:8000/api/todos/", payload)
@@ -65,11 +73,9 @@ function GetTodos() {
   };
 
   const deleteRaw = (index) => {
-    console.log(index);
     axios
       .delete(`http://127.0.0.1:8000/api/todos/${index}/`)
       .then((response) => {
-        console.log("Deleted");
         const updated_data = todo.filter((each_row) => each_row.id !== index);
         setTodo(updated_data);
       })
@@ -81,13 +87,10 @@ function GetTodos() {
       description: editedDescription,
       completed: editedIsCompleted,
     };
-    console.log(new_data);
     event.preventDefault();
     axios
       .patch(`http://127.0.0.1:8000/api/todos/${editdata.id}/`, new_data)
       .then((response) => {
-        console.log("Edited");
-
         closeModal();
         const newState = todo.map((obj) =>
           obj.id === editdata.id ? response.data : obj
@@ -97,88 +100,140 @@ function GetTodos() {
       .catch((error) => console.log("Error Occured: ", error));
   };
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "space-evenly" }}>
       <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Completed</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {todo.map((row, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell component='th' scope='row'>
-                    {row.title}
-                  </TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  {row.completed ? (
-                    <TableCell>true</TableCell>
-                  ) : (
-                    <TableCell>false</TableCell>
-                  )}
-                  <TableCell>
-                    <IconButton
-                      aria-label='delete'
-                      size='large'
-                      onClick={() => openModal(row.id)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      aria-label='delete'
-                      size='large'
-                      onClick={() => deleteRaw(row.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
+        {isLoading ? (
+          <Todoskeleton />
+        ) : (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Completed</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {todo.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell component='th' scope='row'>
+                      {row.title}
+                    </TableCell>
+                    <TableCell>{row.description}</TableCell>
+                    {row.completed ? (
+                      <TableCell>true</TableCell>
+                    ) : (
+                      <TableCell>false</TableCell>
+                    )}
+                    <TableCell>
+                      <IconButton
+                        aria-label='delete'
+                        size='large'
+                        onClick={() => openModal(row.id)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        aria-label='delete'
+                        size='large'
+                        onClick={() => deleteRaw(row.id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
-
-      <form onSubmit={handlePost}>
-        Title : <input type='text' name='title' />
-        Description : <input type='text' name='description' />
-        completed : <input type='text' name='completed' />
+      <Box
+        onSubmit={handlePost}
+        component='form'
+        sx={{
+          width: 500,
+          maxWidth: "100%",
+        }}
+        noValidate
+        autoComplete='off'>
+        <TextField
+          required
+          fullWidth
+          id='outlined-basic'
+          label='Title'
+          name='title'
+          variant='outlined'
+          margin='normal'
+        />
+        <TextField
+          required
+          fullWidth
+          id='outlined-basic'
+          label='Description'
+          name='description'
+          variant='outlined'
+          margin='normal'
+        />
+        <FormControlLabel
+          required
+          control={<Checkbox />}
+          label='TaskCompleted'
+          name='completed'
+        />
         <Button color='success' variant='contained' type='submit'>
           Submit
         </Button>
-      </form>
-
+      </Box>
       <div>
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
           editId={editId}
           title='Edit TODO'
-          content=<form onSubmit={(event) => editRaw(event, editTodo)}>
-            <input
-              type='text'
+          isloading={isLoading}
+          content=<Box
+            onSubmit={(event) => editRaw(event, editTodo)}
+            component='form'
+            sx={{
+              width: 500,
+              maxWidth: "100%",
+            }}
+            noValidate
+            autoComplete='off'>
+            <TextField
+              required
+              fullWidth
+              label='Title'
+              variant='outlined'
+              margin='normal'
               value={editedTitle}
               onChange={(event) => setEditedTitle(event.target.value)}
             />
-            <input
-              type='text'
+            <TextField
+              required
+              fullWidth
+              label='Description'
+              name='description'
+              variant='outlined'
+              margin='normal'
               value={editedDescription}
               onChange={(event) => setEditedDescription(event.target.value)}
             />
-            <input
-              type='text'
-              value={editedIsCompleted}
-              onChange={(event) => setEditedIsCompleted(event.target.value)}
+            <FormControlLabel
+              required
+              control={<Checkbox />}
+              label='TaskCompleted'
+              name='completed'
+              checked={editedIsCompleted}
+              onChange={(event) => setEditedIsCompleted(event.target.checked)}
             />
             <Button color='success' variant='contained' type='submit'>
               Save
             </Button>
-          </form>
+          </Box>
         />
       </div>
     </div>
