@@ -11,9 +11,34 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Modal from "../hooks/modalHook";
 
 function GetTodos() {
   const [todo, setTodo] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editId, seteditId] = useState(null);
+  const [editTodo, seteditTodo] = useState([]);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedDescription, setEditedDescription] = useState("");
+  const [editedIsCompleted, setEditedIsCompleted] = useState(false);
+
+  const openModal = (index) => {
+    axios
+      .get(`http://127.0.0.1:8000/api/todos/${index}/`)
+      .then((response) => {
+        seteditTodo(response.data);
+        setEditedTitle(response.data.title);
+        setEditedDescription(response.data.description);
+        setEditedIsCompleted(response.data.completed);
+      })
+      .catch((error) => console.log(error));
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/todos/")
@@ -50,16 +75,26 @@ function GetTodos() {
       })
       .catch((error) => console.log("Error Occured: ", error));
   };
-  const editRaw = (index) => {
-    console.log(index);
-    // axios
-    //   .update(`http://127.0.0.1:8000/api/todos/${index}/`, )
-    //   .then((response) => {
-    //     console.log("Deleted");
-    //     const updated_data = todo.filter((each_row) => each_row.id !== index);
-    //     setTodo(updated_data);
-    //   })
-    //   .catch((error) => console.log("Error Occured: ", error));
+  const editRaw = (event, editdata) => {
+    const new_data = {
+      title: editedTitle,
+      description: editedDescription,
+      completed: editedIsCompleted,
+    };
+    console.log(new_data);
+    event.preventDefault();
+    axios
+      .patch(`http://127.0.0.1:8000/api/todos/${editdata.id}/`, new_data)
+      .then((response) => {
+        console.log("Edited");
+
+        closeModal();
+        const newState = todo.map((obj) =>
+          obj.id === editdata.id ? response.data : obj
+        );
+        setTodo(newState);
+      })
+      .catch((error) => console.log("Error Occured: ", error));
   };
   return (
     <div>
@@ -92,7 +127,7 @@ function GetTodos() {
                     <IconButton
                       aria-label='delete'
                       size='large'
-                      onClick={() => editRaw(row.id)}>
+                      onClick={() => openModal(row.id)}>
                       <EditIcon />
                     </IconButton>
                     <IconButton
@@ -117,6 +152,35 @@ function GetTodos() {
           Submit
         </Button>
       </form>
+
+      <div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          editId={editId}
+          title='Edit TODO'
+          content=<form onSubmit={(event) => editRaw(event, editTodo)}>
+            <input
+              type='text'
+              value={editedTitle}
+              onChange={(event) => setEditedTitle(event.target.value)}
+            />
+            <input
+              type='text'
+              value={editedDescription}
+              onChange={(event) => setEditedDescription(event.target.value)}
+            />
+            <input
+              type='text'
+              value={editedIsCompleted}
+              onChange={(event) => setEditedIsCompleted(event.target.value)}
+            />
+            <Button color='success' variant='contained' type='submit'>
+              Save
+            </Button>
+          </form>
+        />
+      </div>
     </div>
   );
 }
