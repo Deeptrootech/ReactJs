@@ -17,6 +17,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import FormSkeleton from "../Skeleton/FormSkeleton";
 
 function GetTodos() {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +52,9 @@ function GetTodos() {
       .get("http://127.0.0.1:8000/api/todos/")
       .then((response) => {
         setTodo(response.data);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -105,8 +108,10 @@ function GetTodos() {
         {isLoading ? (
           <Todoskeleton />
         ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label='simple table'>
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
@@ -150,43 +155,47 @@ function GetTodos() {
           </TableContainer>
         )}
       </div>
-      <Box
-        onSubmit={handlePost}
-        component='form'
-        sx={{
-          width: 500,
-          maxWidth: "100%",
-        }}
-        noValidate
-        autoComplete='off'>
-        <TextField
-          required
-          fullWidth
-          id='outlined-basic'
-          label='Title'
-          name='title'
-          variant='outlined'
-          margin='normal'
-        />
-        <TextField
-          required
-          fullWidth
-          id='outlined-basic'
-          label='Description'
-          name='description'
-          variant='outlined'
-          margin='normal'
-        />
-        <FormControlLabel
-          required
-          control={<Checkbox />}
-          label='TaskCompleted'
-          name='completed'
-        />
-        <Button color='success' variant='contained' type='submit'>
-          Submit
-        </Button>
-      </Box>
+      {isLoading ? (
+        <FormSkeleton />
+      ) : (
+        <Box
+          onSubmit={handlePost}
+          component='form'
+          sx={{
+            width: 500,
+            maxWidth: "100%",
+          }}
+          noValidate
+          autoComplete='off'>
+          <TextField
+            required
+            fullWidth
+            id='outlined-basic'
+            label='Title'
+            name='title'
+            variant='outlined'
+            margin='normal'
+          />
+          <TextField
+            required
+            fullWidth
+            id='outlined-basic'
+            label='Description'
+            name='description'
+            variant='outlined'
+            margin='normal'
+          />
+          <FormControlLabel
+            required
+            control={<Checkbox />}
+            label='TaskCompleted'
+            name='completed'
+          />
+          <Button color='success' variant='contained' type='submit'>
+            Submit
+          </Button>
+        </Box>
+      )}
       <div>
         <Modal
           isOpen={isModalOpen}
