@@ -7,13 +7,13 @@ import Users from "../pages/users/Users";
 import Register from "../pages/register/Register";
 import Login from "../pages/login/Login";
 import Contact from "../pages/contact/Contact";
-import MainLayout from "../pages/MainLayout/MainLayout";
+import MainLayout from "../components/MainLayout/MainLayout";
 
 function Router() {
   return (
     <>
       <Routes>
-        <Route exact path='/' element={<MainLayout />}> 
+        <Route exact path='/' element={<MainLayout />}>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/login' element={<Login />} />
@@ -22,7 +22,6 @@ function Router() {
         <Route exact path='/users' element={<Users />} />
         <Route path='*' element={<Errors />} />
       </Routes>
-      <Footer />
     </>
   );
 }

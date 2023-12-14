@@ -6,16 +6,16 @@ export default function Footer() {
     <footer className='footer-distributed'>
       <div className='footer-right'>
         <Link to='#'>
-          <i classNameName='fa fa-facebook'></i>
+          <i className='fa fa-facebook'></i>
         </Link>
         <Link to='#'>
-          <i classNameName='fa fa-twitter'></i>
+          <i className='fa fa-twitter'></i>
         </Link>
         <Link to='#'>
-          <i classNameName='fa fa-linkedin'></i>
+          <i className='fa fa-linkedin'></i>
         </Link>
         <Link to='#'>
-          <i classNameName='fa fa-github'></i>
+          <i className='fa fa-github'></i>
         </Link>
       </div>
 

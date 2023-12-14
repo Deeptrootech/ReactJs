@@ -1,5 +1,4 @@
 import React from "react";
-import { Link , Outlet} from "react-router-dom";
 
 function Home() {
   return (
@@ -7,7 +6,7 @@ function Home() {
       This is Home page
     </>
   );
-  
+
 }
 
 export default Home;
