@@ -7,11 +7,6 @@ function MainLayout() {
   return (
     <>
       <Navbar />
-      <hr />
-      <h3>MainLayout contains..</h3>
-      <p>navbar(ABOVE)</p>
-      <p>Outlets(BELOW) --- <span>(childs will be rendered in this layout design)</span></p>
-      <hr />
       <Outlet />
       <Footer />
     </>
