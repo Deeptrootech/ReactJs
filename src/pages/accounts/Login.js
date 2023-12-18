@@ -2,14 +2,34 @@ import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 import "./login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { baseURL } from "../../services/user.services";
 
 function Login() {
-
-  const handlePost = (event) =>{
-    console.log(event.target.email.value);
-    console.log(event.target.password.value);
+  const handlePost = (event) => {
     event.preventDefault();
-  }
+    const user_credentials = {
+      email: event.target.email.value,
+      password: event.target.password.value,
+    };
+    axios
+      .post(`${baseURL}login/`, user_credentials)
+      .then(function (response) {
+        console.log(response);
+        // Initialize the access & refresh token in localstorage.
+        localStorage.clear();
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data["access"]}`;
+        window.location.href = "/";
+        event.target.reset();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <div className='container'>
@@ -35,7 +55,11 @@ function Login() {
           <Link to='/forgotpassword'>Forgot your password?</Link>
         </Box>
         <Box sx={{ textAlign: "center", marginBottom: "5%" }}>
-          <Button color='success' variant='contained' type='submit' size="large">
+          <Button
+            color='success'
+            variant='contained'
+            type='submit'
+            size='large'>
             LogIn
           </Button>
         </Box>

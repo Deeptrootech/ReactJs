@@ -17,13 +17,22 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const pages = ["rooms", "booking", "prizing", "contact"];
-const settings = ["Profile", "ResetPassword", "Login", "Logout"];
 const notification = "notification";
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const [isAuth, setIsAuth] = React.useState(false);
+
+  const settings = isAuth ? ["Profile", "ResetPassword", "Logout"] : ["Login"];
+  const pages = isAuth ? ["rooms", "booking", "prizing", "contact"] : ["contact"];
+
+  React.useEffect(() => {
+    if (localStorage.getItem("access_token") !== null) {
+      setIsAuth(true);
+    }
+  }, [isAuth]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -176,8 +185,14 @@ function Navbar() {
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Link
-                    style={{ textAlign:'center', color: "black", textDecoration: "none" }}
-                    to={`/${setting}`}>{setting}</Link>
+                    style={{
+                      textAlign: "center",
+                      color: "black",
+                      textDecoration: "none",
+                    }}
+                    to={`/${setting}`}>
+                    {setting}
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
