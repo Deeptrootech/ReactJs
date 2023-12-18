@@ -23,7 +23,7 @@ function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const [isAuth, setIsAuth] = React.useState(false);
+  const [isAuth, setIsAuth] = React.useState(localStorage.getItem("access_token") ? true : false);
 
   const settings = isAuth ? ["Profile", "ResetPassword", "Logout"] : ["Login"];
   const pages = isAuth ? ["rooms", "booking", "prizing", "contact"] : ["contact"];

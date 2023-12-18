@@ -1,19 +1,21 @@
 import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../../services/user.services";
+import axiosapi from "../../interceptor/axios";
+
 
 function Login() {
+  const navigate = useNavigate();
   const handlePost = (event) => {
     event.preventDefault();
     const user_credentials = {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    axios
-      .post(`${baseURL}login/`, user_credentials)
+    axiosapi.post(`${baseURL}login/`, user_credentials)
       .then(function (response) {
         console.log(response);
         // Initialize the access & refresh token in localstorage.
@@ -23,8 +25,9 @@ function Login() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data["access"]}`;
-        window.location.href = "/";
         event.target.reset();
+        // Inside the handleLogin function
+        navigate.push('/'); // Redirect to the dashboard after login
       })
       .catch(function (error) {
         console.log(error);
