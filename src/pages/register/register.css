@@ -1,7 +1,7 @@
 .container {
   text-align: -webkit-center;
   color: #282c2f;
-  
+
 }
 
 .container form {
@@ -15,4 +15,32 @@
 
 a {
   color: #282c2f;
+}
+
+
+/* Phone Number CSS */
+.PhoneInputInput {
+  height: 32px;
+  border: none;
+  border-bottom: 1px solid #949494;
+}
+
+/* styles.css */
+.PhoneInputCountrySelect {
+  /* Custom styles for the country select dropdown */
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.PhoneInputCountrySelect .CountrySelect {
+  /* Custom styles for the country select input */
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.PhoneInputCountrySelect .CountrySelect .CountrySelect-arrow {
+  /* Custom styles for the country select arrow */
+  border-top-color: #333;
 }

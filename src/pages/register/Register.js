@@ -25,12 +25,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 export default function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = React.useState(false);
   const [city, setCity] = React.useState("");
   const [birthdate, setBirthdate] = React.useState(null);
+  const [phone, setPhoneValue] = useState();
 
   const handleCityChange = (event) => {
     setCity(event.target.value);
@@ -74,6 +78,7 @@ export default function Register() {
       ) : null}
       <form onSubmit={handlePost}>
         <h1>Register Here</h1>
+        {/* First name  */}
         <TextField
           sx={{ m: 1 }}
           required
@@ -83,6 +88,7 @@ export default function Register() {
           variant='standard'
           margin='normal'
         />
+        {/* last name  */}
         <TextField
           sx={{ m: 1 }}
           required
@@ -145,10 +151,23 @@ export default function Register() {
             }
           />
         </FormControl>
+        {/* phone number */}
+        <FormControl
+          fullWidth
+          sx={{ marginX: 1, marginTop: 2 }}
+          variant='standard'>
+          <PhoneInput
+            sx={{ marginX: 1, marginTop: 2 }}
+            defaultCountry='IN'
+            placeholder='PhoneNumber'
+            value={phone}
+            onChange={setPhoneValue}
+          />
+        </FormControl>
         {/* Date of Birth  */}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            sx={{ marginX: 1, marginTop: 2 }}
+            sx={{ marginX: 1, marginTop: 3 }}
             label='Date Of Birth'
             value={birthdate}
             onChange={(newValue) => setBirthdate(newValue)}
@@ -185,13 +204,14 @@ export default function Register() {
         />
         {/* is_terms_accepted */}
         <FormControlLabel
+          sx={{ marginX: 1, marginTop: 2, color: "#666666", width: "100%" }}
           required
           control={<Checkbox />}
           label='I accept the terms and conditions and privacy policy'
           name='is_terms_accepted'
         />
         {/* Register Button  */}
-        <Box sx={{ textAlign: "center", marginBottom: "5%" }}>
+        <Box sx={{ textAlign: "center", marginY: "5%" }}>
           <Button
             color='success'
             variant='contained'
