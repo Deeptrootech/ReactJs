@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const axiosapi = axios.create({
   headers: {
     "Content-Type": "application/json",
@@ -37,7 +38,6 @@ axiosapiSecure.interceptors.response.use(
     if (err.response.status === 401 && access_token) {
       return console.log("generate new acces via refresh");
     }
-    window.location.href = "/login";
     return Promise.reject(err);
   }
 );

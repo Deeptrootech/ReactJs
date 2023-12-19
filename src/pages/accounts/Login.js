@@ -1,21 +1,24 @@
 import { Box, Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../../services/user.services";
 import axiosapi from "../../interceptor/axios";
-
+import Alert from "@mui/material/Alert";
+import TransitionAlerts from "../../services/TransitionAlerts";
 
 function Login() {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const handlePost = (event) => {
     event.preventDefault();
     const user_credentials = {
       email: event.target.email.value,
       password: event.target.password.value,
     };
-    axiosapi.post(`${baseURL}login/`, user_credentials)
+    axiosapi
+      .post(`${baseURL}login/`, user_credentials)
       .then(function (response) {
         console.log(response);
         // Initialize the access & refresh token in localstorage.
@@ -27,15 +30,22 @@ function Login() {
         ] = `Bearer ${response.data["access"]}`;
         event.target.reset();
         // Inside the handleLogin function
-        navigate.push('/'); // Redirect to the dashboard after login
+        navigate("/"); // Redirect to the dashboard after login
       })
       .catch(function (error) {
-        console.log(error);
+        setError(error);
       });
   };
 
   return (
     <div className='container'>
+      {error ? (
+        error.response.status === 401 ? (
+          <TransitionAlerts message="Invalid Credentials" type='error' />
+        ) : (
+          <TransitionAlerts message={error} type='error' />
+        )
+      ) : null}
       <form onSubmit={handlePost}>
         <h1>Login Here</h1>
         <TextField
