@@ -10,7 +10,6 @@ import axios from "axios";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -35,6 +34,7 @@ export default function Register() {
   const [city, setCity] = React.useState("");
   const [birthdate, setBirthdate] = React.useState(null);
   const [phone, setPhoneValue] = useState();
+  const [nonfielderror, setNonFieldErrors] = useState(null);
 
   const handleCityChange = (event) => {
     setCity(event.target.value);
@@ -47,18 +47,23 @@ export default function Register() {
 
   const handlePost = (event) => {
     event.preventDefault();
+    const user_birthdate = `${birthdate["$d"].getFullYear()}-${
+      (birthdate["$d"].getMonth() % 12) + 1
+    }-${birthdate["$d"].getDate()}`;
     const user_data = {
       email: event.target.email.value,
       password: event.target.password.value,
       confirm_password: event.target.confirm_password.value,
       first_name: event.target.first_name.value,
       last_name: event.target.last_name.value,
-      mobile: event.target.mobile.value,
-      date_of_birth: event.target.date_of_birth.value,
+      mobile: phone,
+      date_of_birth: user_birthdate,
       city: event.target.city.value,
       postal_code: event.target.postal_code.value,
-      is_terms_accepted: event.target.is_terms_accepted.value,
+      is_terms_accepted:
+        event.target.is_terms_accepted.value === "on" ? true : false,
     };
+
     axiosapi
       .post(`${baseURL}register/`, user_data)
       .then(function (response) {
@@ -67,15 +72,14 @@ export default function Register() {
         navigate("/login");
       })
       .catch(function (error) {
-        setError(error);
+        setNonFieldErrors(error.response.data["non_field_errors"].toString());
       });
   };
 
   return (
     <div className='container'>
-      {error ? (
-        <TransitionAlerts message={error.response.message} type='error' />
-      ) : null}
+      {nonfielderror && <TransitionAlerts message={nonfielderror} type='error' />
+        }
       <form onSubmit={handlePost}>
         <h1>Register Here</h1>
         {/* First name  */}
@@ -107,9 +111,19 @@ export default function Register() {
               required
               id='input-with-sx'
               label='Email'
+              name='email'
               variant='standard'
             />
           </Box>
+          <p>
+            {error ? (
+              <span style={{ fontSize: "small", color: "red" }}>
+                {error.response.data["email"][0]}
+              </span>
+            ) : (
+              <span></span>
+            )}
+          </p>
         </Box>
         {/* password */}
         <FormControl fullWidth sx={{ m: 1 }} variant='standard'>
@@ -118,6 +132,7 @@ export default function Register() {
           </InputLabel>
           <Input
             id='password1'
+            name='password'
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position='end'>
@@ -138,6 +153,7 @@ export default function Register() {
           </InputLabel>
           <Input
             id='standard-adornment-password'
+            name='confirm_password'
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position='end'>
@@ -161,6 +177,7 @@ export default function Register() {
             defaultCountry='IN'
             placeholder='PhoneNumber'
             value={phone}
+            name='mobile'
             onChange={setPhoneValue}
           />
         </FormControl>
@@ -170,6 +187,8 @@ export default function Register() {
             sx={{ marginX: 1, marginTop: 3 }}
             label='Date Of Birth'
             value={birthdate}
+            name='date_of_birth'
+            dateFromat='yyyy-MM-dd'
             onChange={(newValue) => setBirthdate(newValue)}
           />
         </LocalizationProvider>
@@ -183,6 +202,7 @@ export default function Register() {
             id='demo-simple-select-standard'
             value={city}
             onChange={handleCityChange}
+            name='city'
             label='City'>
             <MenuItem value=''>
               <em>None</em>
@@ -217,7 +237,7 @@ export default function Register() {
             variant='contained'
             type='submit'
             size='large'>
-            LogIn
+            Register
           </Button>
         </Box>
       </form>
