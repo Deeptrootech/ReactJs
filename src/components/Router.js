@@ -15,6 +15,7 @@ import Profile from "../pages/profile/Profile";
 import ResetPassword from "../pages/accounts/ResetPassword";
 import ForgotPassword from "../pages/accounts/ForgotPassword";
 import Logout from "../pages/accounts/Logout";
+import Addbooking from "../pages/booking/Addbooking";
 
 function Router() {
   return (
@@ -28,6 +29,7 @@ function Router() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/rooms' element={<Rooms />} />
           <Route exact path='/booking' element={<Booking />} />
+          <Route exact path='/newbooking' element={<Addbooking />} />
           <Route exact path='/prizing' element={<Prizing />} />
           <Route exact path='/notification' element={<Notification />} />
           <Route exact path='/resetpassword' element={<ResetPassword />} />

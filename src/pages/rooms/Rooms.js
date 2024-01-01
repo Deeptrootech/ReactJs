@@ -1,33 +1,53 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
+import { axiosapiSecure } from "../../interceptor/axios";
+import { baseURL } from "../../services/user.services";
+import "./Rooms.css";
 
 export default function Rooms() {
+  const navigate = useNavigate();
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token") === null) {
+      navigate("/login");
+    } else {
+      axiosapiSecure
+        .get(`${baseURL}hotel/rooms/`)
+        .then((response) => setRooms(response.data.results))
+        .catch((response) => console.log(response));
+    }
+  }, []);
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <div className='rooms_container'>
+      {rooms.map((room, index) => (
+        <Card key={index} sx={{ width: 345, margin: "3%" }}>
+          <CardMedia
+            component='img'
+            alt={room.room_name}
+            height='250'
+            image={room.room_image}
+          />
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='div'>
+              {room.room_name}
+              <Button sx={{ color: "green" }} size='small'>
+                Available
+              </Button>
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              {room.room_description}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 }
