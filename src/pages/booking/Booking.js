@@ -22,6 +22,7 @@ export default function Booking() {
         .get(`${baseURL}hotel/bookings/`)
         .then((response) => {
           console.log(response);
+          debugger
           setBookings(response.data.results);
         })
         .catch((response) => console.log(response));
@@ -42,7 +43,7 @@ export default function Booking() {
         </Button>
       </div>
       <div className='booking_container'>
-        {[...bookings, ...bookings].map((booking, booking_index) => (
+        {[...bookings].map((booking, booking_index) => (
           <Card
             key={`Booking${booking_index}`}
             sx={{

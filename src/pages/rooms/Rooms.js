@@ -38,9 +38,15 @@ export default function Rooms() {
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
               {room.room_name}
-              <Button sx={{ color: "green" }} size='small'>
-                Available
-              </Button>
+              {room.is_available ? (
+                <Button sx={{ color: "green" }} size='small'>
+                  Available
+                </Button>
+              ) : (
+                <Button sx={{ color: "red" }} size='small'>
+                  NotAvailable
+                </Button>
+              )}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
               {room.room_description}

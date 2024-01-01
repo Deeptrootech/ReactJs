@@ -1,5 +1,6 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Chip, OutlinedInput, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import TransitionAlerts from "../../services/TransitionAlerts";
 import axiosapi, { axiosapiSecure } from "../../interceptor/axios";
@@ -16,11 +17,33 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import "./AddBooking.css";
+import Socket from "../notification/Socket";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+function getStyles(name, roomName, theme) {
+  return {
+    fontWeight:
+      roomName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 export default function Addbooking() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [room, setRoom] = React.useState("");
+  const theme = useTheme();
+  const [room, setRoom] = React.useState([]);
+  const [rooms, setRooms] = React.useState([]);
   const [CheckIn, setCheckIn] = React.useState(null);
   const [CheckOut, setCheckOut] = React.useState(null);
   const [nonfielderror, setNonFieldErrors] = useState(null);
@@ -31,13 +54,19 @@ export default function Addbooking() {
     } else {
       axiosapiSecure
         .get(`${baseURL}hotel/rooms/`)
-        .then((response) => setRoom(response.data.results))
+        .then((response) => {
+          setRooms(response.data.results);
+        })
         .catch((response) => console.log(response));
     }
   }, []);
 
   const handleRoomChange = (event) => {
-    setRoom(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    
+    setRoom(value);
   };
 
   const handlePost = (event) => {
@@ -52,18 +81,21 @@ export default function Addbooking() {
     const user_booking_data = {
       CheckInDate: user_checkin,
       CheckOutDate: user_checkout,
-      rooms: event.target.rooms.value,
+      room_ids: room,
     };
-    debugger;
-    axiosapi
+    axiosapiSecure
       .post(`${baseURL}hotel/bookings/`, user_booking_data)
       .then(function (response) {
         console.log(response);
+        Socket.send(JSON.stringify({
+          'message': "My message"
+      }));
         event.target.reset();
         navigate("/booking");
       })
       .catch(function (error) {
-        setNonFieldErrors(error.response.data["non_field_errors"].toString());
+        debugger
+        setNonFieldErrors(error.response.data["non_field_errors"]);
       });
   };
 
@@ -103,19 +135,42 @@ export default function Addbooking() {
           <InputLabel required id='demo-simple-select-standard-label'>
             Rooms
           </InputLabel>
-          <Select
+          {/* <Select
             labelId='demo-simple-select-standard-label'
             id='demo-simple-select-standard'
             value={room}
             onChange={handleRoomChange}
             name='rooms'
             label='Rooms'>
-            <MenuItem value=''>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {rooms.map((each_room, index) => (
+              <MenuItem key={index} value={each_room.id}>
+                {each_room.room_name}
+              </MenuItem>
+            ))}
+          </Select> */}
+          <Select
+            labelId='demo-multiple-chip-label'
+            id='demo-multiple-chip'
+            multiple
+            value={room}
+            onChange={handleRoomChange}
+            input={<OutlinedInput id='select-multiple-chip' label='Rooms' />}
+            renderValue={(selected) => (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((value, index) => (
+                  <Chip key={index} label={value} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}>
+            {rooms.map((each_room, index) => (
+              <MenuItem
+                key={index}
+                value={each_room.id}
+                style={getStyles(each_room, rooms, theme)}>
+                {each_room.room_name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
