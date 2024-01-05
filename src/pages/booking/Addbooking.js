@@ -17,7 +17,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import "./AddBooking.css";
-import Socket from "../notification/Socket";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,11 +60,24 @@ export default function Addbooking() {
     }
   }, []);
 
+  // ################## Socket message send when Booking Added suceesfully #######################
+  const socket = new WebSocket(
+    "ws://127.0.0.1:8000/ws/notification/public_room/"
+  );
+  const send_notification = (response) => {
+    socket.send(
+      JSON.stringify({
+        message: "Booking Created..!!",
+      })
+    );
+  };
+  // ##############################################################
+
   const handleRoomChange = (event) => {
     const {
       target: { value },
     } = event;
-    
+
     setRoom(value);
   };
 
@@ -86,15 +98,11 @@ export default function Addbooking() {
     axiosapiSecure
       .post(`${baseURL}hotel/bookings/`, user_booking_data)
       .then(function (response) {
-        console.log(response);
-        Socket.send(JSON.stringify({
-          'message': "My message"
-      }));
+        send_notification(response);
         event.target.reset();
         navigate("/booking");
       })
       .catch(function (error) {
-        debugger
         setNonFieldErrors(error.response.data["non_field_errors"]);
       });
   };
